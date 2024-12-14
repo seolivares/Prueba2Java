@@ -1,10 +1,7 @@
 package vista;
 
 import controlador.EmpresaTurismo;
-import modelo.Cabagna;
-import modelo.Carpa;
-import modelo.DatosCliente;
-import modelo.MedioDeAlojamiento;
+import modelo.*;
 
 import java.util.ArrayList;
 
@@ -12,7 +9,8 @@ public class App {
     public static void main(String[] args) {
         int opcion;
         String rutCliente;
-
+        boolean fumador;
+        String capacidad;
         EmpresaTurismo empresaTurismo = new EmpresaTurismo(new ArrayList<>());
 
         do{
@@ -21,19 +19,21 @@ public class App {
             switch (opcion){
                 case 1:
                     System.out.println("Ingresar medio");
+                    System.out.println();
+
                     rutCliente = pideCodigo();
 
                     if(empresaTurismo.buscarMedio(rutCliente)==-1){
                         System.out.println("No existe y se debe crear");
                         System.out.println();
                         System.out.println("Nombre del cliente: "); String nombre = Leer.dato();
-                        System.out.println("Rut del cliente: "); String rut = Leer.dato();
+                        //System.out.println("Rut del cliente: "); String rut = Leer.dato();
                         System.out.println("Valor base de la noche: "); int valor = Leer.datoInt();
                         System.out.println("Cantidad de noches: "); int cantidadNoches = Leer.datoInt();
 
                         String tipoTemporada;
                         do{
-                            System.out.println("¿Tipo de temporada ((Alta, Media o Baja)? ");
+                            System.out.println("¿Tipo de temporada (Alta, Media o Baja)? ");
                             tipoTemporada = Leer.dato();
                         }while(tipoTemporada.compareToIgnoreCase("Alta") !=0 &&
                                 tipoTemporada.compareToIgnoreCase("Media") !=0 &&
@@ -49,23 +49,82 @@ public class App {
                         if(respuesta==1){
                             System.out.println("Cantidad de personas: "); int cantidadPersonas = Leer.datoInt();
 
-                            DatosCliente datosCliente = new DatosCliente(nombre,rut);
+                            DatosCliente datosCliente = new DatosCliente(nombre,rutCliente);
                             Carpa carpa = new Carpa(datosCliente,valor,cantidadNoches,tipoTemporada,cantidadPersonas);
-
                             empresaTurismo.ingresarCarpa(carpa);
                             System.out.println("Se registra la carpa correctamente...");
+                        }else{
+                            if(respuesta==2){
+                                capacidad = tieneCapacidad();
+
+                                String opcionChi;
+                                do{
+                                    System.out.println("¿Tiene Chimenea (Si o No)? ");
+                                    opcionChi = Leer.dato();
+                                }while(opcionChi.compareToIgnoreCase("Si") !=0 &&
+                                        opcionChi.compareToIgnoreCase("No") !=0);
+
+                                Boolean chimenea;
+                                if(opcionChi.equalsIgnoreCase("Si")){
+                                    chimenea = true;
+                                }else {
+                                    chimenea = false;
+                                }
+
+                                fumador = esFumador();
+
+                                DatosCliente datosCliente = new DatosCliente(nombre,rutCliente);
+                                Cabagna cabagna = new Cabagna(datosCliente,valor,cantidadNoches,tipoTemporada,fumador,capacidad,chimenea);
+                                empresaTurismo.ingresarCabagna(cabagna);
+                                System.out.println("Se registra la cabaña correctamente...");
+                            }else{
+                                if(respuesta==3){
+                                    capacidad = tieneCapacidad();
+
+                                    String opcionDesa;
+                                    do{
+                                        System.out.println("¿Tiene Desayuno (Si o No)? ");
+                                        opcionDesa = Leer.dato();
+                                    }while(opcionDesa.compareToIgnoreCase("Si") !=0 &&
+                                            opcionDesa.compareToIgnoreCase("No") !=0);
+
+                                    Boolean desayuno;
+                                    if(opcionDesa.equalsIgnoreCase("Si")){
+                                        desayuno = true;
+                                    }else {
+                                        desayuno = false;
+                                    }
+
+                                    fumador = esFumador();
+
+                                    DatosCliente datosCliente = new DatosCliente(nombre,rutCliente);
+                                    Hotel hotel = new Hotel(datosCliente,valor,cantidadNoches,tipoTemporada,fumador,capacidad,desayuno);
+                                    empresaTurismo.ingresarHotel(hotel);
+                                    System.out.println("Se registra el hotel correctamente...");
+                                }
+                            }
                         }
+
                     }else{
-                        System.out.println("El rut " + rutCliente + " del cliente ya existe!!!");
+                        System.out.println("El rut del cliente ya existe!!!\n");
                     }
                     break;
                 case 2:
-                    System.out.println("Datos de medio");
-                    System.out.println();
+                    System.out.println("Medios de Alojamiento");
                     System.out.println(empresaTurismo.medioCarpa());
+                    System.out.println(empresaTurismo.medioCabagna());
+                    System.out.println(empresaTurismo.medioHotel());
                     break;
                 case 3:
-                    System.out.println("en construcción");
+                    rutCliente = pideCodigo();
+
+                    if(empresaTurismo.buscarMedio(rutCliente)!=-1){
+                        System.out.println("\nCliente Encontrado Exitosamente");
+                        System.out.println(empresaTurismo.datosCliente(rutCliente));
+                    }else{
+                    System.out.println("\nEl Cliente no se encuentra registrado!!!\n");
+                }
+
                     break;
                 case 4:
                     System.out.println("en construcción");
@@ -89,6 +148,34 @@ public class App {
     public static String pideCodigo(){
         System.out.println("Favor ingrese rut del cliente...");
         return Leer.dato();
+    }
+
+    public static boolean esFumador(){
+        String opcionFuma;
+        do{
+            System.out.println("¿Es Fumador (Si o No)? ");
+            opcionFuma = Leer.dato();
+        }while(opcionFuma.compareToIgnoreCase("Si") !=0 &&
+                opcionFuma.compareToIgnoreCase("No") !=0);
+
+        Boolean fumador;
+        if(opcionFuma.equalsIgnoreCase("Si")){
+            fumador = true;
+        }else {
+            fumador = false;
+        }
+
+        return fumador;
+    }
+
+    public static String tieneCapacidad(){
+        String capacidad;
+        do{
+            System.out.println("¿Tiene Capacidad (Si o No)? ");
+            capacidad = Leer.dato();
+        }while(capacidad.compareToIgnoreCase("Si") !=0 &&
+                capacidad.compareToIgnoreCase("No") !=0);
+        return  capacidad;
     }
 
     public static int menu(){
