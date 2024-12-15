@@ -27,17 +27,16 @@ public class App {
                         System.out.println("No existe y se debe crear");
                         System.out.println();
                         System.out.println("Nombre del cliente: "); String nombre = Leer.dato();
-                        //System.out.println("Rut del cliente: "); String rut = Leer.dato();
                         System.out.println("Valor base de la noche: "); int valor = Leer.datoInt();
                         System.out.println("Cantidad de noches: "); int cantidadNoches = Leer.datoInt();
 
                         String tipoTemporada;
                         do{
-                            System.out.println("¿Tipo de temporada (Alta, Media o Baja)? ");
+                            System.out.println("Tipo de temporada: Alta, Media o Baja");
                             tipoTemporada = Leer.dato();
-                        }while(tipoTemporada.compareToIgnoreCase("Alta") !=0 &&
-                                tipoTemporada.compareToIgnoreCase("Media") !=0 &&
-                                tipoTemporada.compareToIgnoreCase("Baja") !=0);
+                        }while(tipoTemporada.compareToIgnoreCase("A") !=0 &&
+                                tipoTemporada.compareToIgnoreCase("M") !=0 &&
+                                tipoTemporada.compareToIgnoreCase("B") !=0);
 
                         int respuesta;
                         do{
@@ -52,7 +51,7 @@ public class App {
                             DatosCliente datosCliente = new DatosCliente(nombre,rutCliente);
                             Carpa carpa = new Carpa(datosCliente,valor,cantidadNoches,tipoTemporada,cantidadPersonas);
                             empresaTurismo.ingresarCarpa(carpa);
-                            System.out.println("Se registra la carpa correctamente...");
+                            System.out.println("Se registra la carpa correctamente...\n");
                         }else{
                             if(respuesta==2){
                                 capacidad = tieneCapacidad();
@@ -61,11 +60,11 @@ public class App {
                                 do{
                                     System.out.println("¿Tiene Chimenea (Si o No)? ");
                                     opcionChi = Leer.dato();
-                                }while(opcionChi.compareToIgnoreCase("Si") !=0 &&
-                                        opcionChi.compareToIgnoreCase("No") !=0);
+                                }while(opcionChi.compareToIgnoreCase("S") !=0 &&
+                                        opcionChi.compareToIgnoreCase("N") !=0);
 
                                 Boolean chimenea;
-                                if(opcionChi.equalsIgnoreCase("Si")){
+                                if(opcionChi.equalsIgnoreCase("S")){
                                     chimenea = true;
                                 }else {
                                     chimenea = false;
@@ -76,7 +75,7 @@ public class App {
                                 DatosCliente datosCliente = new DatosCliente(nombre,rutCliente);
                                 Cabagna cabagna = new Cabagna(datosCliente,valor,cantidadNoches,tipoTemporada,fumador,capacidad,chimenea);
                                 empresaTurismo.ingresarCabagna(cabagna);
-                                System.out.println("Se registra la cabaña correctamente...");
+                                System.out.println("Se registra la cabaña correctamente...\n");
                             }else{
                                 if(respuesta==3){
                                     capacidad = tieneCapacidad();
@@ -85,11 +84,11 @@ public class App {
                                     do{
                                         System.out.println("¿Tiene Desayuno (Si o No)? ");
                                         opcionDesa = Leer.dato();
-                                    }while(opcionDesa.compareToIgnoreCase("Si") !=0 &&
-                                            opcionDesa.compareToIgnoreCase("No") !=0);
+                                    }while(opcionDesa.compareToIgnoreCase("S") !=0 &&
+                                            opcionDesa.compareToIgnoreCase("N") !=0);
 
                                     Boolean desayuno;
-                                    if(opcionDesa.equalsIgnoreCase("Si")){
+                                    if(opcionDesa.equalsIgnoreCase("S")){
                                         desayuno = true;
                                     }else {
                                         desayuno = false;
@@ -100,7 +99,7 @@ public class App {
                                     DatosCliente datosCliente = new DatosCliente(nombre,rutCliente);
                                     Hotel hotel = new Hotel(datosCliente,valor,cantidadNoches,tipoTemporada,fumador,capacidad,desayuno);
                                     empresaTurismo.ingresarHotel(hotel);
-                                    System.out.println("Se registra el hotel correctamente...");
+                                    System.out.println("Se registra el hotel correctamente...\n");
                                 }
                             }
                         }
@@ -110,20 +109,34 @@ public class App {
                     }
                     break;
                 case 2:
-                    System.out.println("Medios de Alojamiento");
+                    System.out.println("Medios de Alojamiento\n");
+
+
                     System.out.println(empresaTurismo.medioCarpa());
                     System.out.println(empresaTurismo.medioCabagna());
                     System.out.println(empresaTurismo.medioHotel());
+
+                    if(empresaTurismo.medioCarpa().isEmpty()){
+                        System.out.println("No hay Carpa Registrada!!!\n");
+                    }
+
+                    if(empresaTurismo.medioCabagna().isEmpty()){
+                        System.out.println("No hay Cabaña Registrada!!!\n");
+                    }
+
+                    if(empresaTurismo.medioHotel().isEmpty()){
+                        System.out.println("No hay Hotel Registrado!!!\n");
+                    }
+
                     break;
                 case 3:
                     rutCliente = pideCodigo();
 
                     if(empresaTurismo.buscarMedio(rutCliente)!=-1){
-                        System.out.println("\nCliente Encontrado Exitosamente");
                         System.out.println(empresaTurismo.datosCliente(rutCliente));
                     }else{
                     System.out.println("\nEl Cliente no se encuentra registrado!!!\n");
-                }
+                    }
 
                     break;
                 case 4:
@@ -136,7 +149,14 @@ public class App {
                     System.out.println("en construcción");
                     break;
                 case 7:
-                    System.out.println("en construcción");
+                    rutCliente = pideCodigo();
+
+                    if(empresaTurismo.buscarMedio(rutCliente)!=-1){
+                        System.out.println(empresaTurismo.subtotal(rutCliente));
+                    }else{
+                        System.out.println("\nEl Cliente no se encuentra registrado!!!\n");
+                    }
+
                     break;
                 case 8:
                     System.out.println("en construcción");
@@ -155,11 +175,11 @@ public class App {
         do{
             System.out.println("¿Es Fumador (Si o No)? ");
             opcionFuma = Leer.dato();
-        }while(opcionFuma.compareToIgnoreCase("Si") !=0 &&
-                opcionFuma.compareToIgnoreCase("No") !=0);
+        }while(opcionFuma.compareToIgnoreCase("S") !=0 &&
+                opcionFuma.compareToIgnoreCase("N") !=0);
 
         Boolean fumador;
-        if(opcionFuma.equalsIgnoreCase("Si")){
+        if(opcionFuma.equalsIgnoreCase("S")){
             fumador = true;
         }else {
             fumador = false;
@@ -173,8 +193,8 @@ public class App {
         do{
             System.out.println("¿Tiene Capacidad (Si o No)? ");
             capacidad = Leer.dato();
-        }while(capacidad.compareToIgnoreCase("Si") !=0 &&
-                capacidad.compareToIgnoreCase("No") !=0);
+        }while(capacidad.compareToIgnoreCase("S") !=0 &&
+                capacidad.compareToIgnoreCase("N") !=0);
         return  capacidad;
     }
 

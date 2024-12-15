@@ -48,108 +48,43 @@ public class EmpresaTurismo {
     }
 
     public String medioCarpa(){
-        //recorrer la lista
         String mensaje = "";
-        Carpa carpa = null;
 
         for(int i=0;i<empresaTurismo.size();i++){
-
             if(empresaTurismo.get(i) instanceof Carpa){
-                mensaje = mensaje + "\nNombre Cliente: " + empresaTurismo.get(i).getDatosClientes().getNombreCliente()
-                        + "\nRut cliente: " + empresaTurismo.get(i).getDatosClientes().getRut();
                 mensaje = mensaje + datosCarpa(i);
             }
         }
 
-        if(mensaje.equalsIgnoreCase("")){
-            mensaje = "No hay carpas registradas!!!\n";
-        }
         return mensaje;
     }
 
     public String medioCabagna(){
-        //recorrer la lista
         String mensaje = "";
-        Cabagna cabagna = null;
 
         for(int i=0;i<empresaTurismo.size();i++){
-
             if(empresaTurismo.get(i) instanceof Cabagna){
-                cabagna = (Cabagna) empresaTurismo.get(i);
-                mensaje = mensaje + "\nMedio de Alojamiento: Cabaña "
-                                  + "\nTemporada: " + cabagna.getTipoTemporada()
-                                  + "\nValor por Noche: " + cabagna.getValorBaseNoche()
-                                  + "\nCantidad de Noches: " + cabagna.getCantidadNoches()
-                                  + "\nTiene Capacidad: " + cabagna.getCapacidad()
-                                  + "\nTiene Chimenea: ";
-
-                if(cabagna.isChimenea()){
-                    mensaje = mensaje + "Si";
-                }else{
-                    mensaje = mensaje + "No";
-                }
-
-                mensaje = mensaje + "\nNombre Cliente: " + cabagna.getDatosClientes().getNombreCliente()
-                        + "\nRut cliente: "+ cabagna.getDatosClientes().getRut()
-                        + "\nFumador: ";
-
-                if(cabagna.isEsFumador()){
-                    mensaje = mensaje + "Si\n";
-                }else{
-                    mensaje = mensaje + "No\n";
-                }
+                mensaje = mensaje + datosCabagna(i);
             }
         }
-        if(mensaje.equalsIgnoreCase("")){
-            mensaje = "No hay Cabañas registradas!!!\n";
-        }
+
         return mensaje;
     }
 
     public String medioHotel(){
         String mensaje = "";
-        Hotel hotel = null;
 
         for(int i=0;i<empresaTurismo.size();i++){
-            //definir una estructura de control
             if(empresaTurismo.get(i) instanceof Hotel){
-                hotel = (Hotel) empresaTurismo.get(i);
-                mensaje = mensaje + "\nMedio de Alojamiento: Hotel "
-                                  + "\nTemporada: " + hotel.getTipoTemporada()
-                                  + "\nValor por Noche: " + hotel.getValorBaseNoche()
-                                  + "\nCantidad de Noches: " + hotel.getCantidadNoches()
-                                  + "\nTiene Capacidad: " + hotel.getCapacidad()
-                                  + "\nTiene Desayuno: ";
-
-                if(hotel.isConDesayuno()){
-                    mensaje = mensaje + "Si";
-                }else{
-                    mensaje = mensaje + "No";
-                }
-
-                mensaje = mensaje + "\nNombre Cliente: " + hotel.getDatosClientes().getNombreCliente()
-                        + "\nRut cliente: "+ hotel.getDatosClientes().getRut()
-                        + "\nFumador: ";
-
-                if(hotel.isEsFumador()){
-                    mensaje = mensaje + "Si\n";
-                }else{
-                    mensaje = mensaje + "No\n";
-                }
+                mensaje = mensaje + datosHotel(i);
             }
         }
-        if(mensaje.equalsIgnoreCase("")){
-            mensaje = "No hay Hoteles registrados!!!\n";
-        }
+
         return mensaje;
     }
 
     public String datosCliente(String rutCliente){
-        //recorrer la lista
         String mensaje = "";
-        Carpa carpa = null;
-        Cabagna cabagna = null;
-        Hotel hotel = null;
         int i=0;
         boolean encontrado = false;
 
@@ -158,13 +93,11 @@ public class EmpresaTurismo {
                 encontrado = true;
 
                 if (empresaTurismo.get(i) instanceof Carpa) {
-                    mensaje = mensaje + "\nNombre Cliente: " + empresaTurismo.get(i).getDatosClientes().getNombreCliente()
-                            + "\nRut cliente: " + empresaTurismo.get(i).getDatosClientes().getRut();
                     mensaje = mensaje + datosCarpa(i);
                 } else if (empresaTurismo.get(i) instanceof Cabagna) {
-                    cabagna = (Cabagna) empresaTurismo.get(i);
+                    mensaje = mensaje + datosCabagna(i);
                 } else if (empresaTurismo.get(i) instanceof Hotel) {
-                    hotel = (Hotel) empresaTurismo.get(i);
+                    mensaje = mensaje + datosHotel(i);
                 }
             }
             i=i+1;
@@ -176,16 +109,120 @@ public class EmpresaTurismo {
     public String datosCarpa(int i){
         String mensaje = "";
         Carpa carpa;
-
         carpa = (Carpa) empresaTurismo.get(i);
-        mensaje = mensaje + "\nMedio de Alojamiento: Carpa "
-                          + "\nTemporada: " + carpa.getTipoTemporada()
-                          + "\nValor por Noche: " + carpa.getValorBaseNoche()
-                          + "\nCantidad de Noches: " + carpa.getCantidadNoches()
-                          + "\nCantidad de Personas: " + carpa.getCantidadPersonas() + "\n";
+
+        mensaje = mensaje + "\nNombre Cliente: " + empresaTurismo.get(i).getDatosClientes().getNombreCliente()
+                + "\nRut cliente: " + empresaTurismo.get(i).getDatosClientes().getRut()
+                + "\nMedio: Carpa "
+                + "\nTemporada: " + carpa.getTipoTemporada()
+                + "\nValor por Noche: " + carpa.getValorBaseNoche()
+                + "\nCantidad de Noches: " + carpa.getCantidadNoches()
+                + "\nCantidad de Personas: " + carpa.getCantidadPersonas() + "\n";
 
         return mensaje;
     }
+
+    public String datosCabagna(int i){
+        String mensaje = "";
+        Cabagna cabagna;
+        cabagna = (Cabagna) empresaTurismo.get(i);
+
+        mensaje = mensaje + "\nNombre Cliente: " + empresaTurismo.get(i).getDatosClientes().getNombreCliente()
+                + "\nRut cliente: " + empresaTurismo.get(i).getDatosClientes().getRut()
+                + "\nMedio: Cabaña "
+                + "\nTemporada: " + cabagna.getTipoTemporada()
+                + "\nValor por Noche: " + cabagna.getValorBaseNoche()
+                + "\nCantidad de Noches: " + cabagna.getCantidadNoches()
+                + "\nCantidad de Noches: " + cabagna.getCapacidad()
+                + "\nTiene Chimenea: ";
+
+        if(cabagna.isChimenea()){
+            mensaje = mensaje + "Si";
+        }else{
+            mensaje = mensaje + "No";
+        }
+
+        mensaje = mensaje + "\nFumador: ";
+
+        if(cabagna.isEsFumador()){
+            mensaje = mensaje + "Si\n";
+        }else{
+            mensaje = mensaje + "No\n";
+        }
+
+        return mensaje;
+    }
+
+    public String datosHotel(int i){
+        String mensaje = "";
+        Hotel hotel;
+        hotel = (Hotel) empresaTurismo.get(i);
+
+        mensaje = mensaje + "\nNombre Cliente: " + empresaTurismo.get(i).getDatosClientes().getNombreCliente()
+                + "\nRut cliente: " + empresaTurismo.get(i).getDatosClientes().getRut()
+                + "\nMedio: Hotel"
+                + "\nTemporada: " + hotel.getTipoTemporada()
+                + "\nValor por Noche: " + hotel.getValorBaseNoche()
+                + "\nCantidad de Noches: " + hotel.getCantidadNoches()
+                + "\nCapacidad: " + hotel.getCapacidad()
+                + "\nDesayuno: ";
+
+        if(hotel.isConDesayuno()){
+            mensaje = mensaje + "Si";
+        }else{
+            mensaje = mensaje + "No";
+        }
+
+        mensaje = mensaje + "\nFumador: ";
+
+        if(hotel.isEsFumador()){
+            mensaje = mensaje + "Si\n";
+        }else{
+            mensaje = mensaje + "No\n";
+        }
+
+        return mensaje;
+    }
+
+    public String subtotal(String rutCliente){
+        int subTotal = 0;
+        int i=0;
+        boolean encontrado = false;
+        String mensaje = "";
+        Hotel hotel;
+        Cabagna cabagna;
+        Carpa carpa;
+
+        do{
+            if(empresaTurismo.get(i).getDatosClientes().getRut().compareToIgnoreCase(rutCliente) == 0) {
+                encontrado = true;
+
+                if (empresaTurismo.get(i) instanceof Carpa) {
+                    carpa = (Carpa) empresaTurismo.get(i);
+                    subTotal = carpa.getValorBaseNoche() * carpa.getCantidadNoches();
+                    mensaje = "\nNombre Cliente: " + empresaTurismo.get(i).getDatosClientes().getNombreCliente()
+                            + "\nRut cliente: " + empresaTurismo.get(i).getDatosClientes().getRut()
+                            + "\nEl valor a cencelar por " + carpa.getCantidadNoches() + " noches es: " + subTotal + "\n";
+                } else if (empresaTurismo.get(i) instanceof Cabagna) {
+                    cabagna = (Cabagna) empresaTurismo.get(i);
+                    subTotal = cabagna.getValorBaseNoche() * cabagna.getCantidadNoches();
+                    mensaje = "\nNombre Cliente: " + empresaTurismo.get(i).getDatosClientes().getNombreCliente()
+                            + "\nRut cliente: " + empresaTurismo.get(i).getDatosClientes().getRut()
+                            + "\nValor a cencelar por " + subTotal + "\n";
+                } else if (empresaTurismo.get(i) instanceof Hotel) {
+                    hotel = (Hotel) empresaTurismo.get(i);
+                    subTotal = hotel.getValorBaseNoche() * hotel.getCantidadNoches();
+                    mensaje = "\nNombre Cliente: " + empresaTurismo.get(i).getDatosClientes().getNombreCliente()
+                            + "\nRut cliente: " + empresaTurismo.get(i).getDatosClientes().getRut()
+                            + "\nValor a cencelar por " + subTotal + "\n";
+                }
+            }
+            i=i+1;
+        }while(encontrado == false);
+
+        return mensaje;
+    }
+
 
 }
 
