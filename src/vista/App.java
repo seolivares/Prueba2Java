@@ -10,7 +10,7 @@ public class App {
         int opcion;
         String rutCliente;
         boolean fumador;
-        String capacidad;
+        int capacidad;
         EmpresaTurismo empresaTurismo = new EmpresaTurismo(new ArrayList<>());
 
         do{
@@ -54,7 +54,8 @@ public class App {
                             System.out.println("Se registra la carpa correctamente...\n");
                         }else{
                             if(respuesta==2){
-                                capacidad = tieneCapacidad();
+                                System.out.println("Capacidad: ");
+                                capacidad = Leer.datoInt();
 
                                 String opcionChi;
                                 do{
@@ -78,7 +79,8 @@ public class App {
                                 System.out.println("Se registra la cabaña correctamente...\n");
                             }else{
                                 if(respuesta==3){
-                                    capacidad = tieneCapacidad();
+                                    System.out.println("Capacidad: ");
+                                    capacidad = Leer.datoInt();
 
                                     String opcionDesa;
                                     do{
@@ -152,7 +154,7 @@ public class App {
                     rutCliente = pideCodigo();
 
                     if(empresaTurismo.buscarMedio(rutCliente)!=-1){
-                        System.out.println(empresaTurismo.subtotal(rutCliente));
+                        System.out.println(empresaTurismo.valoraCancelar(rutCliente));
                     }else{
                         System.out.println("\nEl Cliente no se encuentra registrado!!!\n");
                     }
@@ -186,16 +188,6 @@ public class App {
         }
 
         return fumador;
-    }
-
-    public static String tieneCapacidad(){
-        String capacidad;
-        do{
-            System.out.println("¿Tiene Capacidad (Si o No)? ");
-            capacidad = Leer.dato();
-        }while(capacidad.compareToIgnoreCase("S") !=0 &&
-                capacidad.compareToIgnoreCase("N") !=0);
-        return  capacidad;
     }
 
     public static int menu(){

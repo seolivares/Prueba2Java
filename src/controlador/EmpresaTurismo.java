@@ -133,7 +133,7 @@ public class EmpresaTurismo {
                 + "\nTemporada: " + cabagna.getTipoTemporada()
                 + "\nValor por Noche: " + cabagna.getValorBaseNoche()
                 + "\nCantidad de Noches: " + cabagna.getCantidadNoches()
-                + "\nCantidad de Noches: " + cabagna.getCapacidad()
+                + "\nCapaciad: " + cabagna.getCapacidad()
                 + "\nTiene Chimenea: ";
 
         if(cabagna.isChimenea()){
@@ -184,11 +184,35 @@ public class EmpresaTurismo {
         return mensaje;
     }
 
-    public String subtotal(String rutCliente){
-        int subTotal = 0;
+
+    public int subtotal(){
+        int subtotal = 0;
+        Hotel hotel;
+        Cabagna cabagna;
+        Carpa carpa;
+
+        for(int i=0;i<empresaTurismo.size();i++){
+
+            if(empresaTurismo.get(i) instanceof Carpa){
+                carpa = (Carpa) empresaTurismo.get(i);
+                subtotal = carpa.getValorBaseNoche() * carpa.getCantidadNoches();
+            }else if(empresaTurismo.get(i) instanceof Cabagna){
+                cabagna = (Cabagna) empresaTurismo.get(i);
+                subtotal = cabagna.getValorBaseNoche() * cabagna.getCantidadNoches();
+            } else if(empresaTurismo.get(i) instanceof Hotel){
+                hotel = (Hotel) empresaTurismo.get(i);
+                subtotal = hotel.getValorBaseNoche() * hotel.getCantidadNoches();
+            }
+        }
+
+        return subtotal;
+    }
+
+    public String valoraCancelar(String rutCliente){
+
         int i=0;
         boolean encontrado = false;
-        String mensaje = "";
+        String mensaje= "";
         Hotel hotel;
         Cabagna cabagna;
         Carpa carpa;
@@ -199,30 +223,71 @@ public class EmpresaTurismo {
 
                 if (empresaTurismo.get(i) instanceof Carpa) {
                     carpa = (Carpa) empresaTurismo.get(i);
-                    subTotal = carpa.getValorBaseNoche() * carpa.getCantidadNoches();
                     mensaje = "\nNombre Cliente: " + empresaTurismo.get(i).getDatosClientes().getNombreCliente()
                             + "\nRut cliente: " + empresaTurismo.get(i).getDatosClientes().getRut()
-                            + "\nEl valor a cencelar por " + carpa.getCantidadNoches() + " noches es: " + subTotal + "\n";
+                            + "\nEl valor a cencelar es: " + (subtotal() - bonoDescuento(i)) + "\n";
                 } else if (empresaTurismo.get(i) instanceof Cabagna) {
                     cabagna = (Cabagna) empresaTurismo.get(i);
-                    subTotal = cabagna.getValorBaseNoche() * cabagna.getCantidadNoches();
                     mensaje = "\nNombre Cliente: " + empresaTurismo.get(i).getDatosClientes().getNombreCliente()
                             + "\nRut cliente: " + empresaTurismo.get(i).getDatosClientes().getRut()
-                            + "\nValor a cencelar por " + subTotal + "\n";
+                            + "\nEl valor a cencelar es: " + (subtotal() - bonoDescuento(i)) + "\n";
                 } else if (empresaTurismo.get(i) instanceof Hotel) {
                     hotel = (Hotel) empresaTurismo.get(i);
-                    subTotal = hotel.getValorBaseNoche() * hotel.getCantidadNoches();
                     mensaje = "\nNombre Cliente: " + empresaTurismo.get(i).getDatosClientes().getNombreCliente()
                             + "\nRut cliente: " + empresaTurismo.get(i).getDatosClientes().getRut()
-                            + "\nValor a cencelar por " + subTotal + "\n";
+                            + "\nEl valor a cencelar es: " + (subtotal() - bonoDescuento(i) + hotel.adicional()) + "\n"
+                    + "\nEl valor Adicional es: " + hotel.adicional() + "\n";
                 }
             }
             i=i+1;
+
         }while(encontrado == false);
 
         return mensaje;
     }
 
+    public int bonoDescuento(int i){
+        int descuento = 0;
+        Hotel hotel;
+        Cabagna cabagna;
+        Carpa carpa;
+
+        //for(int i=0;i<empresaTurismo.size();i++){
+
+            if(empresaTurismo.get(i) instanceof Carpa){
+                carpa = (Carpa) empresaTurismo.get(i);
+                if(carpa.getTipoTemporada().equalsIgnoreCase("b")){
+                    descuento = Math.round(subtotal() / 4);
+                }else{
+                    if(carpa.getTipoTemporada().equalsIgnoreCase("m")){
+                        descuento = Math.round(subtotal() / 8);
+                    }
+                }
+
+            }else if(empresaTurismo.get(i) instanceof Cabagna){
+                cabagna = (Cabagna) empresaTurismo.get(i);
+                if(cabagna.getTipoTemporada().equalsIgnoreCase("b")){
+                    descuento = Math.round(subtotal() / 4);
+                }else{
+                    if(cabagna.getTipoTemporada().equalsIgnoreCase("m")){
+                        descuento = Math.round(subtotal() / 8);
+                    }
+                }
+            } else if(empresaTurismo.get(i) instanceof Hotel){
+                hotel = (Hotel) empresaTurismo.get(i);
+                if(hotel.getTipoTemporada().equalsIgnoreCase("b")){
+                    descuento = Math.round(subtotal() / 4);
+                }else{
+                    if(hotel.getTipoTemporada().equalsIgnoreCase("m")){
+                        descuento = Math.round(subtotal() / 8);
+                    }
+                }
+            }
+
+        //}
+
+        return descuento;
+    }
 
 }
 

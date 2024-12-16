@@ -2,9 +2,9 @@ package modelo;
 
 public abstract class Hospederia extends MedioDeAlojamiento {
     protected boolean esFumador;
-    protected String capacidad;
+    protected int capacidad;
 
-    public Hospederia(DatosCliente datosClientes, int valorBaseNoche, int cantidadNoches, String tipoTemporada, boolean esFumador, String capacidad) {
+    public Hospederia(DatosCliente datosClientes, int valorBaseNoche, int cantidadNoches, String tipoTemporada, boolean esFumador, int capacidad) {
         super(datosClientes, valorBaseNoche, cantidadNoches, tipoTemporada);
         this.esFumador = esFumador;
         this.capacidad = capacidad;
@@ -18,11 +18,14 @@ public abstract class Hospederia extends MedioDeAlojamiento {
         this.esFumador = esFumador;
     }
 
-    public String getCapacidad() {
+    public int getCapacidad() {
         return capacidad;
     }
 
-    public void setCapacidad(String capacidad) {
+    public void setCapacidad(int capacidad) {
         this.capacidad = capacidad;
     }
+
+    public abstract int adicional();
+
 }
