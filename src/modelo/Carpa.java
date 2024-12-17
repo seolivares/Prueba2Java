@@ -16,5 +16,4 @@ public class Carpa extends MedioDeAlojamiento{
         this.cantidadPersonas = cantidadPersonas;
     }
 
-
 }

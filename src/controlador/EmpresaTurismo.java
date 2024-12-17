@@ -349,5 +349,28 @@ public class EmpresaTurismo {
         return mensaje;
     }
 
+    public String incrementarValorbase(){
+        String mensaje = "";
+        Cabagna cabagna;
+        int cont = 0;
+
+        for(int i=0;i<empresaTurismo.size();i++){
+            if(empresaTurismo.get(i) instanceof Cabagna){
+                cabagna = (Cabagna) empresaTurismo.get(i);
+                if(cabagna.getCapacidad() > 5){
+                    cabagna.setValorBaseNoche(Math.round(cabagna.getValorBaseNoche() * 18/100 + cabagna.getValorBaseNoche()));
+                    cont+=1;
+                }
+            }
+        }
+
+        if(cont>0){
+            mensaje = "Se incremento el valor base a " + cont + " Cabañas\n";
+        }else{
+            mensaje = "No se realizó ningún incremento\n";
+        }
+
+        return mensaje;
+    }
 }
 
