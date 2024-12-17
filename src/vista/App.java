@@ -142,13 +142,27 @@ public class App {
 
                     break;
                 case 4:
-                    System.out.println("en construcción");
+                    rutCliente = pideCodigo();
+
+                    if(empresaTurismo.buscarMedio(rutCliente)!=-1){
+                        System.out.println(empresaTurismo.totalAdicional(rutCliente));
+                    }else{
+                        System.out.println("\nEl Cliente no se encuentra registrado!!!\n");
+                    }
+
                     break;
                 case 5:
-                    System.out.println("en construcción");
+                    rutCliente = pideCodigo();
+
+                    if(empresaTurismo.buscarMedio(rutCliente)!=-1){
+                        System.out.println(empresaTurismo.totalBono(rutCliente));
+                    }else{
+                        System.out.println("\nEl Cliente no se encuentra registrado!!!\n");
+                    }
+
                     break;
                 case 6:
-                    System.out.println("en construcción");
+                    System.out.println(empresaTurismo.cantidadMedios());
                     break;
                 case 7:
                     rutCliente = pideCodigo();

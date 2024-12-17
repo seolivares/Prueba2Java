@@ -20,10 +20,10 @@ public class Cabagna extends Hospederia {
 
     public int adicional(){
         int adicional = 0;
-        EmpresaTurismo empresaTurismo;
+        //EmpresaTurismo empresaTurismo;
 
         if (this.esFumador == true ) {
-            adicional = Math.round((this.valorBaseNoche * this.cantidadNoches)*30/100);
+            adicional = Math.round(this.valorBaseNoche * this.cantidadNoches*30/100);
         }
 
         return adicional;

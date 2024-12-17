@@ -184,7 +184,6 @@ public class EmpresaTurismo {
         return mensaje;
     }
 
-
     public int subtotal(){
         int subtotal = 0;
         Hotel hotel;
@@ -209,7 +208,6 @@ public class EmpresaTurismo {
     }
 
     public String valoraCancelar(String rutCliente){
-
         int i=0;
         boolean encontrado = false;
         String mensaje= "";
@@ -223,22 +221,16 @@ public class EmpresaTurismo {
 
                 if (empresaTurismo.get(i) instanceof Carpa) {
                     carpa = (Carpa) empresaTurismo.get(i);
-                    mensaje = "\nNombre Cliente: " + empresaTurismo.get(i).getDatosClientes().getNombreCliente()
-                            + "\nRut cliente: " + empresaTurismo.get(i).getDatosClientes().getRut()
-                            + "\nEl valor a cencelar es: " + (subtotal() - bonoDescuento(i)) + "\n";
+                    mensaje = "\nEl cliente tiene un valor a cancelar de: " + (subtotal() - bonoDescuento(i)) + "\n";
                 } else if (empresaTurismo.get(i) instanceof Cabagna) {
                     cabagna = (Cabagna) empresaTurismo.get(i);
-                    mensaje = "\nNombre Cliente: " + empresaTurismo.get(i).getDatosClientes().getNombreCliente()
-                            + "\nRut cliente: " + empresaTurismo.get(i).getDatosClientes().getRut()
-                            + "\nEl valor a cencelar es: " + (subtotal() - bonoDescuento(i)) + "\n";
+                    mensaje = "\nEl cliente tiene un valor a cancelar de: " + (subtotal() - bonoDescuento(i) + cabagna.adicional()) + "\n";
                 } else if (empresaTurismo.get(i) instanceof Hotel) {
                     hotel = (Hotel) empresaTurismo.get(i);
-                    mensaje = "\nNombre Cliente: " + empresaTurismo.get(i).getDatosClientes().getNombreCliente()
-                            + "\nRut cliente: " + empresaTurismo.get(i).getDatosClientes().getRut()
-                            + "\nEl valor a cencelar es: " + (subtotal() - bonoDescuento(i) + hotel.adicional()) + "\n"
-                    + "\nEl valor Adicional es: " + hotel.adicional() + "\n";
+                    mensaje = "\nEl cliente tiene un valor a cancelar de: " + (subtotal() - bonoDescuento(i) + hotel.adicional()) + "\n";
                 }
             }
+
             i=i+1;
 
         }while(encontrado == false);
@@ -252,8 +244,6 @@ public class EmpresaTurismo {
         Cabagna cabagna;
         Carpa carpa;
 
-        //for(int i=0;i<empresaTurismo.size();i++){
-
             if(empresaTurismo.get(i) instanceof Carpa){
                 carpa = (Carpa) empresaTurismo.get(i);
                 if(carpa.getTipoTemporada().equalsIgnoreCase("b")){
@@ -263,7 +253,6 @@ public class EmpresaTurismo {
                         descuento = Math.round(subtotal() / 8);
                     }
                 }
-
             }else if(empresaTurismo.get(i) instanceof Cabagna){
                 cabagna = (Cabagna) empresaTurismo.get(i);
                 if(cabagna.getTipoTemporada().equalsIgnoreCase("b")){
@@ -284,9 +273,80 @@ public class EmpresaTurismo {
                 }
             }
 
-        //}
-
         return descuento;
+    }
+
+    public String totalAdicional(String rutCliente){
+        int i=0;
+        boolean encontrado = false;
+        String mensaje= "";
+        Hotel hotel;
+        Cabagna cabagna;
+
+        do{
+            if(empresaTurismo.get(i).getDatosClientes().getRut().compareToIgnoreCase(rutCliente) == 0) {
+                encontrado = true;
+
+                if(empresaTurismo.get(i) instanceof Carpa){
+                    mensaje = "El cliente no paga adicional\n";
+                }else if (empresaTurismo.get(i) instanceof Cabagna) {
+                    cabagna = (Cabagna) empresaTurismo.get(i);
+                    mensaje = "El cliente paga un total adicional de: " + cabagna.adicional() + "\n";
+                } else if (empresaTurismo.get(i) instanceof Hotel) {
+                    hotel = (Hotel) empresaTurismo.get(i);
+                    mensaje = "El cliente paga un total adicional de: " + hotel.adicional() + "\n";
+                }
+            }
+            i=i+1;
+
+        }while(encontrado == false);
+
+        return mensaje;
+    }
+
+    public String totalBono(String rutCliente){
+        int i=0;
+        boolean encontrado = false;
+        String mensaje= "";
+
+        do{
+            if(empresaTurismo.get(i).getDatosClientes().getRut().compareToIgnoreCase(rutCliente) == 0) {
+                encontrado = true;
+                if(!empresaTurismo.get(i).getTipoTemporada().equalsIgnoreCase("a")){
+                    mensaje = "El cliente tiene un total por bono descuento de: " + bonoDescuento(i) + "\n";
+                }else {
+                    mensaje = "El cliente no tiene descuento\n";
+                }
+            }
+            i=i+1;
+        }while(encontrado == false);
+
+        return mensaje;
+    }
+
+    public String cantidadMedios(){
+        String mensaje= "";
+        int total = 0, contCarpa = 0, contCabagna = 0, contHotel = 0;
+        Hotel hotel;
+        Cabagna cabagna;
+        Carpa carpa;
+
+        for(int i=0;i<empresaTurismo.size();i++){
+
+            if(empresaTurismo.get(i) instanceof Carpa){
+                contCarpa+=1;
+            }else if(empresaTurismo.get(i) instanceof Cabagna){
+                contCabagna+=1;
+            } else if(empresaTurismo.get(i) instanceof Hotel){
+                contHotel+=1;
+            }
+        }
+
+        mensaje = "\nLa cantidad de Carpas es: " + contCarpa
+                + "\nLa cantidad de Cabañas es: " + contCabagna
+                + "\nLa cantidad de Hoteles es: " + contHotel + "\n";
+
+        return mensaje;
     }
 
 }

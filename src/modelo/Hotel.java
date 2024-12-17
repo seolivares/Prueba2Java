@@ -20,15 +20,13 @@ public class Hotel extends Hospederia {
 
     public int adicional(){
         int adicional = 0;
-        EmpresaTurismo empresaTurismo = null;
+        //EmpresaTurismo empresaTurismo = null;
 
         if (this.esFumador == true && this.conDesayuno == true) {
             adicional = Math.round(this.valorBaseNoche * this.cantidadNoches*30/100);
-            //adicional = Math.round(empresaTurismo.subtotal()*30/100);
         }
 
         return adicional;
     }
 
 }
-
